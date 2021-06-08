@@ -9,3 +9,5 @@ services:
         volumes:
             - ./backend:/app
         command: npm run start:dev
+    database:
+        container_name: slack-cut-n-nasty_dev_database
