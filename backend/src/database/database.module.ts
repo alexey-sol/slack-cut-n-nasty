@@ -4,20 +4,22 @@ import { ConfigModule } from "@nestjs/config";
 import databaseConfig from "../config/database";
 import nodeEnvConst from "../utils/const/nodeEnv";
 
-const { PRODUCTION } = nodeEnvConst;
-const { NODE_ENV } = process.env;
+const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
 
 @Module({
     imports: [
         ConfigModule.forFeature(databaseConfig),
         TypeOrmModule.forRoot({
             ...databaseConfig(),
-            entities: [],
-            synchronize: NODE_ENV !== PRODUCTION,
+            cli: {
+                migrationsDir: "migration",
+            },
+            entities: ["dist/**/*.entity{ .ts,.js}"],
+            migrations: ["migration/*.js"],
+            synchronize: !isProduction,
             type: "postgres",
         }),
     ],
-    // providers: [],
 })
 
 export class DatabaseModule {}

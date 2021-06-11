@@ -1,0 +1,9 @@
+type Workspace {
+    id: Int!
+    name: String
+    users: [User]
+}
+
+type Query {
+  getWorkspace(id: Int!): Workspace
+}

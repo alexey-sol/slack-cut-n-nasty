@@ -1,0 +1,9 @@
+type User {
+    id: Int!
+    name: String
+    workspaces: [Workspace]
+}
+
+type Query {
+  getUser(id: Int!): User
+}
