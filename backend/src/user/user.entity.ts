@@ -2,7 +2,7 @@ import {
     Entity, Column, JoinTable, PrimaryGeneratedColumn, ManyToMany,
 } from "typeorm";
 
-import { Workspace } from "../workspace/workspace.entity";
+import { Workspace } from "@workspace/workspace.entity";
 
 @Entity()
 export class User {

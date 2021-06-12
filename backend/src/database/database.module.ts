@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import databaseConfig from "../config/database";
-import nodeEnvConst from "../utils/const/nodeEnv";
+import databaseConfig from "@config/database";
+import nodeEnvConst from "@utils/const/nodeEnv";
 
 const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
 

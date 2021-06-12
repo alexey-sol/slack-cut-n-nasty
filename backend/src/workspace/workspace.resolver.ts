@@ -4,7 +4,7 @@ import {
 
 import { UsePipes } from "@nestjs/common";
 import { CreateWorkspaceDto } from "./workspace.entity";
-import { JoiValidationPipe } from "../utils/pipes";
+import { JoiValidationPipe } from "@utils/pipes";
 import { WorkspaceService } from "./workspace.service";
 import { createWorkspaceDtoSchema } from "./workspace.validation";
 

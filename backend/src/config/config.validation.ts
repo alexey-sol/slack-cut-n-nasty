@@ -1,5 +1,5 @@
 import * as Joi from "joi";
-import nodeEnvConst from "../utils/const/nodeEnv";
+import nodeEnvConst from "@utils/const/nodeEnv";
 
 const { DEVELOPMENT, PRODUCTION, TEST } = nodeEnvConst;
 

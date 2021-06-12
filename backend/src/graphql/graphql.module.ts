@@ -1,7 +1,7 @@
 import { GraphQLModule } from "@nestjs/graphql";
 import { Module } from "@nestjs/common";
 import { join } from "path";
-import nodeEnvConst from "../utils/const/nodeEnv";
+import nodeEnvConst from "@utils/const/nodeEnv";
 
 const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
 

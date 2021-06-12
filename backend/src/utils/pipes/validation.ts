@@ -1,7 +1,7 @@
 import { ObjectSchema } from "joi";
 
 import {
-    PipeTransform, Injectable, ArgumentMetadata, BadRequestException,
+    ArgumentMetadata, BadRequestException, Injectable, PipeTransform,
 } from "@nestjs/common";
 
 @Injectable()

@@ -4,7 +4,7 @@ import {
 
 import { UsePipes } from "@nestjs/common";
 import { CreateUserDto } from "./user.entity";
-import { JoiValidationPipe } from "../utils/pipes";
+import { JoiValidationPipe } from "@utils/pipes";
 import { UserService } from "./user.service";
 import { createUserDtoSchema } from "./user.validation";
 
