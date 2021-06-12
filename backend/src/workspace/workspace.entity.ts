@@ -16,3 +16,7 @@ export class Workspace {
     @JoinTable()
     users: User[]
 }
+
+export class CreateWorkspaceDto {
+    name: string;
+}

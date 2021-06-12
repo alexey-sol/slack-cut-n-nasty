@@ -4,6 +4,14 @@ type Workspace {
     users: [User]
 }
 
+input CreateWorkspaceInput {
+    name: String!
+}
+
 type Query {
-  getWorkspace(id: Int!): Workspace
+    getWorkspace(id: Int!): Workspace
+}
+
+type Mutation {
+    createWorkspace(input: CreateWorkspaceInput): Workspace
 }

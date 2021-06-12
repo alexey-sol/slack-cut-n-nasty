@@ -1,4 +1,8 @@
-import { Args, Query, Resolver } from "@nestjs/graphql";
+import {
+    Args, Mutation, Query, Resolver,
+} from "@nestjs/graphql";
+
+import { CreateWorkspaceDto } from "./workspace.entity";
 import { WorkspaceService } from "./workspace.service";
 
 @Resolver("Workspace")
@@ -7,6 +11,11 @@ export class WorkspaceResolver {
 
     @Query()
     async getWorkspace(@Args("id") id: number) {
-        return this.workspaceService.findOne(id);
+        return this.workspaceService.findOneWorkspace(id);
+    }
+
+    @Mutation()
+    async createWorkspace(@Args("input") input: CreateWorkspaceDto) {
+        return this.workspaceService.createWorkspace(input);
     }
 }

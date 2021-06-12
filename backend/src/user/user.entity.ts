@@ -16,3 +16,7 @@ export class User {
     @JoinTable()
     workspaces: Workspace[]
 }
+
+export class CreateUserDto {
+    name: string;
+}

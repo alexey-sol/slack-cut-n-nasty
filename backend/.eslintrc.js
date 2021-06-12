@@ -19,6 +19,8 @@ module.exports = {
         "import/prefer-default-export": 0,
         indent: ["error", 4, { SwitchCase: 1 }],
         quotes: [2, "double"],
+        "lines-between-class-members": 0,
+        "max-classes-per-file": 0,
         "max-len": ["error", { code: 100 }],
         "no-empty-function": 0,
         "no-unused-vars": ["error", { args: "none" }],

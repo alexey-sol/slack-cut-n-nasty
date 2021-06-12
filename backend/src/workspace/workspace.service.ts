@@ -1,7 +1,7 @@
+import { FindManyOptions, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Workspace } from "./workspace.entity";
+import { CreateWorkspaceDto, Workspace } from "./workspace.entity";
 
 @Injectable()
 export class WorkspaceService {
@@ -10,11 +10,16 @@ export class WorkspaceService {
         private workspaceRepository: Repository<Workspace>,
     ) {}
 
-    findAll(filter): Promise<Workspace[]> {
-        return this.workspaceRepository.find(filter);
+    findManyWorkspaces(options: FindManyOptions): Promise<Workspace[]> {
+        return this.workspaceRepository.find(options);
     }
 
-    findOne(id: number): Promise<Workspace> {
+    findOneWorkspace(id: number): Promise<Workspace> {
         return this.workspaceRepository.findOne(id);
+    }
+
+    createWorkspace(input: CreateWorkspaceDto): Promise<Workspace> {
+        const workspace = this.workspaceRepository.create(input);
+        return this.workspaceRepository.save(workspace);
     }
 }
