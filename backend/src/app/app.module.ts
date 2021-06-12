@@ -6,15 +6,15 @@ import { DatabaseModule } from "../database/database.module";
 import { GraphqlModule } from "../graphql/graphql.module";
 import { UserModule } from "../user/user.module";
 import { WorkspaceModule } from "../workspace/workspace.module";
+import { envSchema } from "../config/config.validation";
 import databaseConfig from "../config/database";
 import serverConfig from "../config/server";
-import validationSchema from "../config/config.validation";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             load: [serverConfig, databaseConfig],
-            validationSchema,
+            validationSchema: envSchema,
         }),
         DatabaseModule,
         GraphqlModule,

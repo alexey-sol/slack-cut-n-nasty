@@ -2,8 +2,11 @@ import {
     Args, Mutation, Query, Resolver,
 } from "@nestjs/graphql";
 
+import { UsePipes } from "@nestjs/common";
 import { CreateWorkspaceDto } from "./workspace.entity";
+import { JoiValidationPipe } from "../utils/pipes";
 import { WorkspaceService } from "./workspace.service";
+import { createWorkspaceDtoSchema } from "./workspace.validation";
 
 @Resolver("Workspace")
 export class WorkspaceResolver {
@@ -15,6 +18,7 @@ export class WorkspaceResolver {
     }
 
     @Mutation()
+    @UsePipes(new JoiValidationPipe(createWorkspaceDtoSchema))
     async createWorkspace(@Args("input") input: CreateWorkspaceDto) {
         return this.workspaceService.createWorkspace(input);
     }

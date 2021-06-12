@@ -3,7 +3,7 @@ import nodeEnvConst from "../utils/const/nodeEnv";
 
 const { DEVELOPMENT, PRODUCTION, TEST } = nodeEnvConst;
 
-export default Joi.object({
+export const envSchema = Joi.object({
     BACKEND_PORT: Joi.number().default(3000),
     NODE_ENV: Joi.string()
         .valid(DEVELOPMENT, PRODUCTION, TEST)
