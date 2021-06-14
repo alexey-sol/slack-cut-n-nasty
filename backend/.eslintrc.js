@@ -26,8 +26,10 @@ module.exports = {
         "lines-between-class-members": 0,
         "max-classes-per-file": 0,
         "max-len": ["error", { code: 100 }],
+        "no-else-return": 0,
         "no-empty-function": 0,
         "no-unused-vars": ["error", { args: "none" }],
+        "no-use-before-define": 0,
         "no-useless-constructor": 0,
     },
     settings: {

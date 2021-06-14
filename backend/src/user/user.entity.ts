@@ -1,22 +1,37 @@
 import {
-    Entity, Column, JoinTable, PrimaryGeneratedColumn, ManyToMany,
+    Entity, Column, JoinColumn, OneToOne, PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { Workspace } from "@workspace/workspace.entity";
+@Entity()
+export class UserDetails {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    fullName: string;
+
+    @Column()
+    displayName: string;
+
+    @Column({ nullable: true })
+    imageUrl: string;
+}
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    name: string;
+    @Column({ nullable: false, unique: true })
+    email: string;
 
-    @ManyToMany((type) => Workspace)
-    @JoinTable()
-    workspaces: Workspace[]
+    @OneToOne((type) => UserDetails, {
+        cascade: true,
+    })
+    @JoinColumn()
+    details: UserDetails;
 }
 
-export class CreateUserDto {
-    name: string;
+export class UserWithDetails extends User {
+    details: UserDetails;
 }

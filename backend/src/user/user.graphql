@@ -1,17 +1,27 @@
-type User {
+type UserDetails {
+    displayName: String
+    fullName: String
     id: Int!
-    name: String
-    workspaces: [Workspace]
+    imageUrl: String
+}
+
+type User {
+    email: String
+    id: Int!
+    details: UserDetails
 }
 
 input CreateUserInput {
-    name: String!
+    displayName: String
+    email: String!
+    fullName: String!
+    imageUrl: String
 }
 
 type Query {
-    getUser(id: Int!): User
+    user(id: Int, email: String): User
 }
 
 type Mutation {
-    createUser(input: CreateUserInput): User
+    createUser(input: CreateUserInput!): User!
 }
