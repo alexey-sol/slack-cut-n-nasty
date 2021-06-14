@@ -1,7 +1,10 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "./user.entity";
 
-const relations = ["details", "joinedWorkspaces", "ownWorkspaces"];
+const relations = [
+    "details", "joinedWorkspaces", "joinedWorkspaces.details", "ownWorkspaces",
+    "ownWorkspaces.details",
+];
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

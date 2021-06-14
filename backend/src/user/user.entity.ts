@@ -1,5 +1,5 @@
 import {
-    Entity, Column, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    Entity, Column, Index, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Workspace } from "@workspace/workspace.entity";
@@ -24,7 +24,8 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false, unique: true })
+    @Index({ unique: true })
+    @Column({ nullable: false })
     email: string;
 
     @OneToOne((type) => UserDetails, {
