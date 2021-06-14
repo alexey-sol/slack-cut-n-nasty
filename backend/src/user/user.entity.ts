@@ -1,5 +1,6 @@
 import {
-    Entity, Column, Index, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    CreateDateColumn, Column, Entity, Index, JoinColumn, ManyToMany, OneToMany, OneToOne,
+    PrimaryGeneratedColumn, UpdateDateColumn,
 } from "typeorm";
 
 import { Workspace } from "@workspace/workspace.entity";
@@ -28,6 +29,13 @@ export class User {
     @Column({ nullable: false })
     email: string;
 
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Index()
     @OneToOne((type) => UserDetails, {
         cascade: true,
     })

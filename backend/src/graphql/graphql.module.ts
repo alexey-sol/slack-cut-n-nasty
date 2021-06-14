@@ -1,6 +1,7 @@
 import { GraphQLModule } from "@nestjs/graphql";
 import { Module } from "@nestjs/common";
 import { join } from "path";
+import { DateScalar } from "@graphql/graphql.scalar";
 import nodeEnvConst from "@utils/const/nodeEnv";
 
 const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
@@ -18,6 +19,7 @@ const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
             typePaths: ["./src/**/*.graphql"],
         }),
     ],
+    providers: [DateScalar],
 })
 
 export class GraphqlModule {}

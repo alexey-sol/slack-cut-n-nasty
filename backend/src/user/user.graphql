@@ -6,11 +6,13 @@ type UserDetails {
 }
 
 type User {
+    createdAt: Date
     email: String
     id: Int!
     details: UserDetails
     joinedWorkspaces: [Workspace]
     ownWorkspaces: [Workspace]
+    updatedAt: Date
 }
 
 input CreateUserInput {

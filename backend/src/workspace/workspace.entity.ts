@@ -1,5 +1,6 @@
 import {
-    Entity, Column, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn,
+    CreateDateColumn, Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne,
+    OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from "typeorm";
 
 import { User } from "@user/user.entity";
@@ -24,6 +25,13 @@ export class Workspace {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @Index()
     @OneToOne((type) => WorkspaceDetails, {
         cascade: true,
     })
@@ -34,6 +42,7 @@ export class Workspace {
     @JoinTable()
     members: User[]
 
+    @Index()
     @ManyToOne((type) => User, (user) => user.ownWorkspaces, {
         nullable: false,
     })
