@@ -1,15 +1,26 @@
+type WorkspaceDetails {
+    description: String
+    id: Int!
+    imageUrl: String
+    name: String
+}
+
 type Workspace {
     id: Int!
-    name: String
-    users: [User]
+    details: WorkspaceDetails
+    members: [User]
+    owner: User
 }
 
 input CreateWorkspaceInput {
+    description: String
+    imageUrl: String
     name: String!
+    ownerId: Int!
 }
 
 type Query {
-    getWorkspace(id: Int!): Workspace
+    workspace(id: Int!): Workspace
 }
 
 type Mutation {

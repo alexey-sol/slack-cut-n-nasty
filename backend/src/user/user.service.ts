@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { UserRepository } from "@user/user.repository";
-import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { UserRepository } from "@user/user.repository";
 import { CreateUserDto } from "./user.dto";
 import { UserDetails, UserWithDetails } from "./user.entity";
 
@@ -22,7 +22,7 @@ export class UserService {
         return this.userRepository.findByEmail(email);
     }
 
-    async createUser({
+    createUser({
         displayName, email, fullName, imageUrl,
     }: CreateUserDto): Promise<UserWithDetails> {
         const details = this.detailsRepository.create();
@@ -32,6 +32,8 @@ export class UserService {
 
         const user = this.userRepository.create();
         user.email = email;
+        user.joinedWorkspaces = [];
+        user.ownWorkspaces = [];
         user.details = details;
 
         return this.userRepository.save(user);

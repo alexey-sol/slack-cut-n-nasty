@@ -1,25 +1,50 @@
-import { FindManyOptions, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateWorkspaceDto, Workspace } from "./workspace.entity";
+import { Repository } from "typeorm";
+import { WorkspaceRepository } from "@workspace/workspace.repository";
+import { UserRepository } from "@user/user.repository";
+import { NotFoundException as UserNotFoundException } from "@user/user.exception";
+import { CreateWorkspaceDto } from "./workspace.dto";
+import { WorkspaceDetails, WorkspaceWithDetails } from "./workspace.entity";
 
 @Injectable()
 export class WorkspaceService {
     constructor(
-        @InjectRepository(Workspace)
-        private workspaceRepository: Repository<Workspace>,
+        private workspaceRepository: WorkspaceRepository,
+
+        @InjectRepository(WorkspaceDetails)
+        private detailsRepository: Repository<WorkspaceDetails>,
+
+        private userRepository: UserRepository,
     ) {}
 
-    findManyWorkspaces(options: FindManyOptions): Promise<Workspace[]> {
-        return this.workspaceRepository.find(options);
+    findWorkspaceById(id: number): Promise<WorkspaceWithDetails> {
+        return this.workspaceRepository.findById(id);
     }
 
-    findOneWorkspace(id: number): Promise<Workspace> {
-        return this.workspaceRepository.findOne(id);
-    }
+    async createWorkspace({
+        description, imageUrl, name, ownerId,
+    }: CreateWorkspaceDto): Promise<WorkspaceWithDetails> {
+        const owner = await this.userRepository.findById(ownerId);
 
-    createWorkspace(input: CreateWorkspaceDto): Promise<Workspace> {
-        const workspace = this.workspaceRepository.create(input);
+        if (!owner) { // todo: check it when validating
+            throw new UserNotFoundException();
+        }
+
+        const details = this.detailsRepository.create();
+        details.name = name;
+        details.description = description;
+        details.imageUrl = imageUrl;
+
+        const workspace = this.workspaceRepository.create();
+        workspace.details = details;
+        workspace.owner = owner;
+        workspace.members = [owner];
+
+        owner.joinedWorkspaces.push(workspace);
+        owner.ownWorkspaces.push(workspace);
+        await this.userRepository.save(owner);
+
         return this.workspaceRepository.save(workspace);
     }
 }

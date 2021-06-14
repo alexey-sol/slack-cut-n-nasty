@@ -9,6 +9,8 @@ type User {
     email: String
     id: Int!
     details: UserDetails
+    joinedWorkspaces: [Workspace]
+    ownWorkspaces: [Workspace]
 }
 
 input CreateUserInput {
