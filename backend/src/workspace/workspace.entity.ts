@@ -1,8 +1,9 @@
 import {
-    CreateDateColumn, Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne,
-    OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
+    Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne,
+    PrimaryGeneratedColumn,
 } from "typeorm";
 
+import { Date } from "@utils/db/entities";
 import { User } from "@user/user.entity";
 
 @Entity()
@@ -25,11 +26,8 @@ export class Workspace {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
+    @Column((type) => Date)
+    date: Date;
 
     @Index()
     @OneToOne((type) => WorkspaceDetails, {

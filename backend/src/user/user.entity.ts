@@ -1,8 +1,8 @@
 import {
-    CreateDateColumn, Column, Entity, Index, JoinColumn, ManyToMany, OneToMany, OneToOne,
-    PrimaryGeneratedColumn, UpdateDateColumn,
+    Column, Entity, Index, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
 } from "typeorm";
 
+import { Date } from "@utils/db/entities";
 import { Workspace } from "@workspace/workspace.entity";
 
 @Entity()
@@ -29,11 +29,8 @@ export class User {
     @Column({ nullable: false })
     email: string;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
+    @Column((type) => Date)
+    date: Date;
 
     @Index()
     @OneToOne((type) => UserDetails, {

@@ -1,18 +1,18 @@
 type UserDetails {
-    displayName: String
-    fullName: String
+    displayName: String!
+    fullName: String!
     id: Int!
     imageUrl: String
 }
 
 type User {
-    createdAt: Date
-    email: String
+    createdAt: Date!
+    email: String!
     id: Int!
-    details: UserDetails
-    joinedWorkspaces: [Workspace]
-    ownWorkspaces: [Workspace]
-    updatedAt: Date
+    details: UserDetails!
+    joinedWorkspaces: [Workspace!]!
+    ownWorkspaces: [Workspace!]!
+    updatedAt: Date!
 }
 
 input CreateUserInput {
@@ -24,6 +24,7 @@ input CreateUserInput {
 
 type Query {
     user(id: Int, email: String): User
+    # users ... : [User!]!
 }
 
 type Mutation {

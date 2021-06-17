@@ -2,16 +2,16 @@ type WorkspaceDetails {
     description: String
     id: Int!
     imageUrl: String
-    name: String
+    name: String!
 }
 
 type Workspace {
-    createdAt: Date
+    createdAt: Date!
     id: Int!
-    details: WorkspaceDetails
-    members: [User]
-    owner: User
-    updatedAt: Date
+    details: WorkspaceDetails!
+    members: [User!]!
+    owner: User!
+    updatedAt: Date!
 }
 
 input CreateWorkspaceInput {
