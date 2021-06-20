@@ -1,15 +1,23 @@
 import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 import { TargetNotFound } from "@utils/exceptions/http";
 import { UserRepository } from "@user/user.repository";
 import { WorkspaceRepository } from "@workspace/workspace.repository";
 
+import {
+    ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface,
+} from "class-validator";
+
 abstract class RecordExists implements ValidatorConstraintInterface {
     protected constructor(protected repository: Repository<unknown>) {}
 
-    async validate(id: number) {
-        const record = await this.repository.findOne(id);
+    async validate(value: unknown, args: ValidationArguments) {
+        const { property } = args;
+        const isId = typeof value === "number" && property === "id";
+
+        const record = await this.repository.findOne((isId)
+            ? value
+            : { [property]: value });
 
         if (!record) {
             const { targetName } = this.repository.metadata;

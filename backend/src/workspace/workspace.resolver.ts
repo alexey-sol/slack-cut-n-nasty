@@ -2,7 +2,7 @@ import {
     Args, Mutation, Query, Resolver,
 } from "@nestjs/graphql";
 
-import { CreateWorkspaceDto } from "@workspace/workspace.dto";
+import { CreateWorkspaceDto, FindWorkspaceArgs } from "@workspace/workspace.dto";
 import { WorkspaceService } from "./workspace.service";
 
 @Resolver("Workspace")
@@ -10,7 +10,7 @@ export class WorkspaceResolver {
     constructor(private workspaceService: WorkspaceService) {}
 
     @Query()
-    workspace(@Args("id") id: number) {
+    workspace(@Args() { id }: FindWorkspaceArgs) {
         return this.workspaceService.findWorkspaceById(id);
     }
 

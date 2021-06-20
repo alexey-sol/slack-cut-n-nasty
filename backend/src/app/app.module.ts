@@ -7,11 +7,12 @@ import { WorkspaceModule } from "@workspace/workspace.module";
 import { envSchema } from "@config/config.validation";
 import databaseConfig from "@config/database";
 import serverConfig from "@config/server";
+import validationPipeConfig from "@config/validationPipe";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
-            load: [serverConfig, databaseConfig],
+            load: [serverConfig, databaseConfig, validationPipeConfig],
             validationSchema: envSchema,
         }),
         DatabaseModule,

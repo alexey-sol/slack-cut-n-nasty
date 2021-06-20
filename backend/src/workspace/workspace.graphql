@@ -6,12 +6,11 @@ type WorkspaceDetails {
 }
 
 type Workspace {
-    createdAt: Date!
-    id: Int!
+    date: DateMeta!
     details: WorkspaceDetails!
+    id: Int!
     members: [User!]!
     owner: User!
-    updatedAt: Date!
 }
 
 input CreateWorkspaceInput {

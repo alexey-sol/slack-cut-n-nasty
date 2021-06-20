@@ -13,9 +13,6 @@ export class UserRepository extends Repository<User> {
     }
 
     findByEmail(email: string) {
-        return this.findOne(null, {
-            where: { email },
-            relations,
-        });
+        return this.findOne({ email }, { relations });
     }
 }
