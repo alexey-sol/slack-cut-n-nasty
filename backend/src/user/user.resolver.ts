@@ -2,12 +2,9 @@ import {
     Args, Mutation, Query, Resolver,
 } from "@nestjs/graphql";
 
-import { SchemaValidationPipe } from "@utils/pipes";
-import { UsePipes } from "@nestjs/common";
 import { CreateUserDto } from "./user.dto";
 import { UserWithDetails } from "./user.entity";
 import { UserService } from "./user.service";
-import { createUserDtoSchema } from "./user.validation";
 
 @Resolver("User")
 export class UserResolver {
@@ -30,7 +27,6 @@ export class UserResolver {
     }
 
     @Mutation()
-    @UsePipes(new SchemaValidationPipe(createUserDtoSchema))
     createUser(@Args("input") input: CreateUserDto) {
         return this.userService.createUser(input);
     }

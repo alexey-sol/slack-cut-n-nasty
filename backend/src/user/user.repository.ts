@@ -1,5 +1,4 @@
 import { EntityRepository, Repository } from "typeorm";
-import CustomRepository from "@utils/types/CustomRepository";
 import { User } from "./user.entity";
 
 const relations = [
@@ -8,7 +7,7 @@ const relations = [
 ];
 
 @EntityRepository(User)
-export class UserRepository extends Repository<User> implements CustomRepository<User> {
+export class UserRepository extends Repository<User> {
     findById(id: number) {
         return this.findOne(id, { relations });
     }
