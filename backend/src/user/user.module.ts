@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserExists } from "@utils/providers/validation";
-import { UserDetails } from "./user.entity";
+import { UserDetails } from "../userDetails/userDetails.entity";
 import { UserRepository } from "./user.repository";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";
@@ -10,7 +9,7 @@ import { UserService } from "./user.service";
     imports: [
         TypeOrmModule.forFeature([UserRepository, UserDetails]),
     ],
-    providers: [UserService, UserResolver, UserExists],
+    providers: [UserService, UserResolver],
     exports: [TypeOrmModule],
 })
 

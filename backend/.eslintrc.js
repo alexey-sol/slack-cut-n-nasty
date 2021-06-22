@@ -40,12 +40,9 @@ module.exports = {
                     ["@app", "./src/app"],
                     ["@config", "./src/config"],
                     ["@const", "./src/utils/const"],
-                    ["@database", "./src/database"],
                     ["@graphql", "./src/graphql"],
                     ["@root", "./src"],
-                    ["@user", "./src/user"],
-                    ["@utils", "./src/utils"],
-                    ["@workspace", "./src/workspace"],
+                    ["@utils", "./src/utils"]
                 ],
             },
             node: {

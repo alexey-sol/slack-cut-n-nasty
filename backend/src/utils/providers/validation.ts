@@ -1,25 +1,25 @@
-import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
-import { TargetNotFound } from "@utils/exceptions/http";
-import { UserRepository } from "@user/user.repository";
-import { WorkspaceRepository } from "@workspace/workspace.repository";
+import {
+    CallHandler, ExecutionContext, Injectable, NestInterceptor,
+} from "@nestjs/common";
 
 import {
     ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface,
 } from "class-validator";
 
+import { Repository } from "typeorm";
+import { Observable } from "rxjs";
+import { TargetNotFound } from "@utils/exceptions/http";
+import { tap } from "rxjs/operators";
+import { WorkspaceRepository } from "@root/workspace/workspace.repository";
+import { UserRepository } from "@root/user/user.repository";
+
 abstract class RecordExists implements ValidatorConstraintInterface {
     protected constructor(protected repository: Repository<unknown>) {}
 
-    async validate(value: unknown, args: ValidationArguments) {
-        const { property } = args;
-        const isId = typeof value === "number" && property === "id";
+    async validate(id: number, args: ValidationArguments) {
+        const record = await this.repository.findOne(id);
 
-        const record = await this.repository.findOne((isId)
-            ? value
-            : { [property]: value });
-
-        if (!record) {
+        if (record === undefined) {
             const { targetName } = this.repository.metadata;
             throw new TargetNotFound(targetName);
         }
@@ -41,5 +41,19 @@ export class UserExists extends RecordExists {
 export class WorkspaceExists extends RecordExists {
     constructor(repository: WorkspaceRepository) {
         super(repository);
+    }
+}
+
+@Injectable()
+export class NotFoundInterceptor implements NestInterceptor {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        return next
+            .handle()
+            .pipe(tap((data) => {
+                if (data === undefined) {
+                    const targetName = context.getArgByIndex(3).returnType;
+                    throw new TargetNotFound(targetName);
+                }
+            }));
     }
 }

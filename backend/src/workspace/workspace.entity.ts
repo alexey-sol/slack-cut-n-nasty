@@ -1,25 +1,10 @@
 import {
-    Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne,
-    PrimaryGeneratedColumn,
+    Column, Entity, Index, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Date } from "@utils/db/entities";
-import { User } from "@user/user.entity";
-
-@Entity()
-export class WorkspaceDetails {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column()
-    name: string;
-
-    @Column({ nullable: true })
-    description: string;
-
-    @Column({ nullable: true })
-    imageUrl: string;
-}
+import { User } from "../user/user.entity";
+import { WorkspaceDetails } from "../workspaceDetails/workspaceDetails.entity";
 
 @Entity()
 export class Workspace {
@@ -29,20 +14,20 @@ export class Workspace {
     @Column((type) => Date)
     date: Date;
 
-    @Index()
-    @OneToOne((type) => WorkspaceDetails, {
+    @OneToOne((type) => WorkspaceDetails, (details) => details.workspace, {
         cascade: true,
     })
-    @JoinColumn()
-    details: WorkspaceDetails
+    details: WorkspaceDetails;
 
-    @ManyToMany((type) => User, (user) => user.joinedWorkspaces)
+    @ManyToMany((type) => User, (user) => user.joinedWorkspaces, {
+        nullable: false,
+    })
     @JoinTable()
     members: User[]
 
     @Index()
     @ManyToOne((type) => User, (user) => user.ownWorkspaces, {
-        nullable: false,
+        nullable: false, onDelete: "CASCADE",
     })
     owner: User;
 }

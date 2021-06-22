@@ -2,6 +2,8 @@ import {
     Args, Mutation, Query, Resolver,
 } from "@nestjs/graphql";
 
+import { NotFoundInterceptor } from "@utils/providers/validation";
+import { UseInterceptors } from "@nestjs/common";
 import { CreateUserDto, FindUserArgs } from "./user.dto";
 import { UserWithDetails } from "./user.entity";
 import { UserService } from "./user.service";
@@ -11,6 +13,7 @@ export class UserResolver {
     constructor(private userService: UserService) {}
 
     @Query()
+    @UseInterceptors(NotFoundInterceptor)
     async user(@Args() args: FindUserArgs) {
         const { id, email } = args;
         let user: UserWithDetails;

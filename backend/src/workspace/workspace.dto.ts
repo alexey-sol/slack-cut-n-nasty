@@ -3,7 +3,7 @@ import {
 } from "class-validator";
 
 import { PartialType } from "@nestjs/mapped-types";
-import { UserExists, WorkspaceExists } from "@utils/providers/validation";
+import { UserExists } from "@utils/providers/validation";
 
 export class CreateWorkspaceDto {
     @IsOptional()
@@ -38,6 +38,5 @@ export class UpdateWorkspaceDto extends PartialType(CreateWorkspaceDto) {}
 export class FindWorkspaceArgs {
     @IsDefined()
     @IsInt()
-    @Validate(WorkspaceExists)
     id: number;
 }

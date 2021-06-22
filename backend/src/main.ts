@@ -2,7 +2,7 @@ import "module-alias/register";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
-import {Logger, ValidationPipe, ValidationPipeOptions} from "@nestjs/common";
+import { Logger, ValidationPipe, ValidationPipeOptions } from "@nestjs/common";
 import { AppModule } from "@app/app.module";
 import { useContainer } from "class-validator";
 
