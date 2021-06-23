@@ -23,9 +23,10 @@ input CreateUserInput {
 
 type Query {
     user(id: Int, email: String): User
-    # users ... : [User!]!
+    users: [User!]!
 }
 
 type Mutation {
     createUser(input: CreateUserInput!): User!
+    deleteUser(id: Int!): DeletionSuccess!
 }

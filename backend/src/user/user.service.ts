@@ -23,6 +23,10 @@ export class UserService {
         return this.userRepository.findByEmail(email);
     }
 
+    findUsers(): Promise<UserWithDetails[]> {
+        return this.userRepository.findAll();
+    }
+
     async createUser({
         displayName, email, fullName, imageUrl,
     }: CreateUserDto): Promise<UserWithDetails> {
@@ -38,5 +42,9 @@ export class UserService {
         user.details = details;
 
         return this.userRepository.save(user);
+    }
+
+    deleteUserById(id: number): Promise<{ id: number }> {
+        return this.userRepository.deleteById(id);
     }
 }

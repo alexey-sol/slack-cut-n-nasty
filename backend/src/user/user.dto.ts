@@ -1,8 +1,10 @@
 import {
     IsDefined, IsEmail, IsInt, IsString, IsNotEmpty, IsOptional, IsUrl, MaxLength, MinLength,
+    Validate,
 } from "class-validator";
 
 import { PartialType } from "@nestjs/mapped-types";
+import { UserExists } from "@utils/providers/validation";
 
 export class CreateUserDto {
     @IsOptional()
@@ -45,4 +47,11 @@ export class FindUserArgs {
     @IsString()
     @IsEmail()
     email: string;
+}
+
+export class DeleteUserArgs {
+    @IsDefined()
+    @IsInt()
+    @Validate(UserExists)
+    id: number;
 }

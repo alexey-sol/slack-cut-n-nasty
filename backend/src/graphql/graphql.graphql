@@ -4,3 +4,7 @@ type DateMeta {
     create: Date!
     update: Date!
 }
+
+type DeletionSuccess {
+    id: Int!
+}

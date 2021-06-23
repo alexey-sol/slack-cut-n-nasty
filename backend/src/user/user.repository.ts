@@ -15,4 +15,13 @@ export class UserRepository extends Repository<User> {
     findByEmail(email: string) {
         return this.findOne({ email }, { relations });
     }
+
+    findAll() {
+        return this.find({ relations });
+    }
+
+    async deleteById(id: number) {
+        await this.delete(id);
+        return { id };
+    }
 }

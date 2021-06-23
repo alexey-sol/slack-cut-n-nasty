@@ -22,8 +22,11 @@ input CreateWorkspaceInput {
 
 type Query {
     workspace(id: Int!): Workspace
+    workspaces: [Workspace!]!
+    workspaceMembers(workspaceId: Int!): [User!]!
 }
 
 type Mutation {
     createWorkspace(input: CreateWorkspaceInput): Workspace
+    deleteWorkspace(id: Int!): DeletionSuccess!
 }

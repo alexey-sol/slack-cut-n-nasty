@@ -8,4 +8,13 @@ export class WorkspaceRepository extends Repository<Workspace> {
     findById(id: number) {
         return this.findOne(id, { relations });
     }
+
+    findAll() {
+        return this.find({ relations });
+    }
+
+    async deleteById(id: number) {
+        await this.delete(id);
+        return { id };
+    }
 }
