@@ -14,11 +14,26 @@ type User {
     ownWorkspaces: [Workspace!]!
 }
 
-input CreateUserInput {
+input CreateUserDetailsInput {
     displayName: String
-    email: String!
     fullName: String!
     imageUrl: String
+}
+
+input CreateUserInput {
+    email: String!
+    details: CreateUserDetailsInput!
+}
+
+input UpdateUserDetailsInput {
+    displayName: String
+    fullName: String
+    imageUrl: String
+}
+
+input UpdateUserInput {
+    email: String
+    details: UpdateUserDetailsInput
 }
 
 type Query {
@@ -28,5 +43,6 @@ type Query {
 
 type Mutation {
     createUser(input: CreateUserInput!): User!
+    updateUser(id: Int!, input: UpdateUserInput!): User!
     deleteUser(id: Int!): DeletionSuccess!
 }

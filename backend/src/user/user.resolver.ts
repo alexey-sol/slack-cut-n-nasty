@@ -4,7 +4,11 @@ import {
 
 import { NotFoundInterceptor } from "@utils/providers/validation";
 import { UseInterceptors } from "@nestjs/common";
-import { CreateUserDto, DeleteUserArgs, FindUserArgs } from "./user.dto";
+
+import {
+    CreateUserDto, FindUserArgs, UpdateUserDto, UserIdArgs,
+} from "./user.dto";
+
 import { UserWithDetails } from "./user.entity";
 import { UserService } from "./user.service";
 
@@ -38,7 +42,15 @@ export class UserResolver {
     }
 
     @Mutation()
-    deleteUser(@Args() { id }: DeleteUserArgs) {
+    updateUser(
+        @Args() { id }: UserIdArgs,
+        @Args("input") input: UpdateUserDto,
+    ) {
+        return this.userService.updateUser(id, input);
+    }
+
+    @Mutation()
+    deleteUser(@Args() { id }: UserIdArgs) {
         return this.userService.deleteUserById(id);
     }
 }

@@ -1,12 +1,13 @@
 import {
-    IsDefined, IsEmail, IsInt, IsString, IsNotEmpty, IsOptional, IsUrl, MaxLength, MinLength,
-    Validate,
+    IsDefined, IsEmail, IsInt, IsNotEmptyObject, IsString, IsNotEmpty, IsOptional, IsUrl,
+    MaxLength, MinLength, Validate, ValidateNested,
 } from "class-validator";
 
-import { PartialType } from "@nestjs/mapped-types";
+import { OmitType, PartialType } from "@nestjs/mapped-types";
+import { Type } from "class-transformer";
 import { UserExists } from "@utils/providers/validation";
 
-export class CreateUserDto {
+class CreateDetailsDto {
     @IsOptional()
     @IsString()
     @IsNotEmpty()
@@ -17,16 +18,9 @@ export class CreateUserDto {
     @IsDefined()
     @IsString()
     @IsNotEmpty()
-    @IsEmail()
-    @MaxLength(100)
-    email: string;
-
-    @IsDefined()
-    @IsString()
-    @IsNotEmpty()
     @MinLength(2)
     @MaxLength(50)
-    fullName: string;
+    fullName!: string;
 
     @IsOptional()
     @IsString()
@@ -36,22 +30,45 @@ export class CreateUserDto {
     imageUrl?: string;
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class CreateUserDto {
+    @IsDefined()
+    @IsString()
+    @IsNotEmpty()
+    @IsEmail()
+    @MaxLength(100)
+    email!: string;
+
+    @IsDefined()
+    @IsNotEmptyObject()
+    @ValidateNested()
+    @Type(() => CreateDetailsDto)
+    details!: CreateDetailsDto;
+}
+
+class UpdateDetailsDto extends PartialType(CreateDetailsDto) {}
+
+export class UpdateUserDto extends PartialType(
+    OmitType(CreateUserDto, ["details"] as const),
+) {
+    @ValidateNested()
+    @Type(() => UpdateDetailsDto)
+    details?: UpdateDetailsDto;
+}
+
+export class UserIdArgs {
+    @IsDefined()
+    @IsInt()
+    @Validate(UserExists)
+    id!: number;
+}
 
 export class FindUserArgs {
     @IsOptional()
     @IsInt()
-    id: number;
+    id?: number;
 
     @IsOptional()
     @IsString()
     @IsEmail()
-    email: string;
-}
-
-export class DeleteUserArgs {
-    @IsDefined()
-    @IsInt()
-    @Validate(UserExists)
-    id: number;
+    email?: string;
 }
