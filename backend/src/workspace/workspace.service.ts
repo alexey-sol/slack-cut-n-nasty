@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { CreateWorkspaceDto } from "./workspace.dto";
+import DeletionSuccess from "@utils/types/DeletionSuccess";
+import { CreateWorkspaceDto, UpdateWorkspaceDto } from "./workspace.dto";
 import { UserRepository } from "../user/user.repository";
 import { UserWithDetails } from "../user/user.entity";
 import { WorkspaceDetails } from "../workspaceDetails/workspaceDetails.entity";
@@ -32,18 +33,19 @@ export class WorkspaceService {
         return workspace.members;
     }
 
-    async createWorkspace({
-        description, imageUrl, name, ownerId,
-    }: CreateWorkspaceDto): Promise<WorkspaceWithDetails> {
+    async createWorkspace(
+        { details, ownerId }: CreateWorkspaceDto,
+    ): Promise<WorkspaceWithDetails> {
+        const { description, imageUrl, name } = details;
         const owner = await this.userRepository.findById(ownerId);
 
-        const details = this.detailsRepository.create();
-        details.name = name;
-        details.description = description;
-        details.imageUrl = imageUrl;
+        const detailsEntity = this.detailsRepository.create();
+        detailsEntity.name = name;
+        detailsEntity.description = description;
+        detailsEntity.imageUrl = imageUrl;
 
         const workspace = this.workspaceRepository.create();
-        workspace.details = details;
+        workspace.details = detailsEntity;
         workspace.owner = owner;
         workspace.members = [owner];
 
@@ -54,7 +56,21 @@ export class WorkspaceService {
         return this.workspaceRepository.save(workspace);
     }
 
-    deleteWorkspaceById(id: number): Promise<{ id: number }> {
+    async updateWorkspace(id: number, {
+        details, ...restForWorkspace
+    }: UpdateWorkspaceDto): Promise<WorkspaceWithDetails> {
+        const workspace = await this.findWorkspaceById(id);
+
+        Object.entries(restForWorkspace).forEach((entry) => {
+            const [key, value] = entry;
+            workspace[key] = value;
+        });
+
+        workspace.details = { ...workspace.details, ...details };
+        return this.workspaceRepository.save(workspace);
+    }
+
+    deleteWorkspaceById(id: number): Promise<DeletionSuccess> {
         return this.workspaceRepository.deleteById(id);
     }
 }

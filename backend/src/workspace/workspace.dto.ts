@@ -1,11 +1,13 @@
 import {
-    IsDefined, IsInt, IsString, IsNotEmpty, IsOptional, IsUrl, MaxLength, MinLength, Validate,
+    IsDefined, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLength, Validate,
+    IsNotEmptyObject, ValidateNested,
 } from "class-validator";
 
-import { PartialType } from "@nestjs/mapped-types";
+import { OmitType, PartialType } from "@nestjs/mapped-types";
+import { Type } from "class-transformer";
 import { UserExists, WorkspaceExists } from "@utils/providers/validation";
 
-export class CreateWorkspaceDto {
+class CreateDetailsDto {
     @IsOptional()
     @IsString()
     @IsNotEmpty()
@@ -18,7 +20,7 @@ export class CreateWorkspaceDto {
     @IsNotEmpty()
     @MinLength(2)
     @MaxLength(50)
-    name: string;
+    name!: string;
 
     @IsOptional()
     @IsString()
@@ -26,31 +28,47 @@ export class CreateWorkspaceDto {
     @IsUrl()
     @MaxLength(200)
     imageUrl?: string;
+}
 
+export class CreateWorkspaceDto {
     @IsDefined()
     @IsInt()
     @Validate(UserExists)
-    ownerId: number;
+    ownerId!: number;
+
+    @IsDefined()
+    @IsNotEmptyObject()
+    @ValidateNested()
+    @Type(() => CreateDetailsDto)
+    details!: CreateDetailsDto;
 }
 
-export class UpdateWorkspaceDto extends PartialType(CreateWorkspaceDto) {}
+class UpdateDetailsDto extends PartialType(CreateDetailsDto) {}
+
+export class UpdateWorkspaceDto extends PartialType(
+    OmitType(CreateWorkspaceDto, ["details"] as const),
+) {
+    @ValidateNested()
+    @Type(() => UpdateDetailsDto)
+    details?: UpdateDetailsDto;
+}
 
 export class FindWorkspaceArgs {
     @IsDefined()
     @IsInt()
-    id: number;
+    id!: number;
+}
+
+export class WorkspaceIdArgs {
+    @IsDefined()
+    @IsInt()
+    @Validate(WorkspaceExists)
+    id!: number;
 }
 
 export class FindWorkspaceMembersArgs {
     @IsDefined()
     @IsInt()
     @Validate(WorkspaceExists)
-    workspaceId: number;
-}
-
-export class DeleteWorkspaceArgs {
-    @IsDefined()
-    @IsInt()
-    @Validate(WorkspaceExists)
-    id: number;
+    workspaceId!: number;
 }

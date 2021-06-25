@@ -13,11 +13,25 @@ type Workspace {
     owner: User!
 }
 
-input CreateWorkspaceInput {
+input CreateWorkspaceDetailsInput {
     description: String
     imageUrl: String
     name: String!
+}
+
+input CreateWorkspaceInput {
     ownerId: Int!
+    details: CreateWorkspaceDetailsInput!
+}
+
+input UpdateWorkspaceDetailsInput {
+    description: String
+    imageUrl: String
+    name: String
+}
+
+input UpdateWorkspaceInput {
+    details: UpdateWorkspaceDetailsInput
 }
 
 type Query {
@@ -27,6 +41,7 @@ type Query {
 }
 
 type Mutation {
-    createWorkspace(input: CreateWorkspaceInput): Workspace
+    createWorkspace(input: CreateWorkspaceInput): Workspace!
+    updateWorkspace(id: Int!, input: UpdateWorkspaceInput!): Workspace!
     deleteWorkspace(id: Int!): DeletionSuccess!
 }

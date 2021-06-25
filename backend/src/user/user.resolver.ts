@@ -4,13 +4,14 @@ import {
 
 import { NotFoundInterceptor } from "@utils/providers/validation";
 import { UseInterceptors } from "@nestjs/common";
+import DeletionSuccess from "@utils/types/DeletionSuccess";
 
 import {
     CreateUserDto, FindUserArgs, UpdateUserDto, UserIdArgs,
 } from "./user.dto";
 
-import { UserWithDetails } from "./user.entity";
 import { UserService } from "./user.service";
+import { UserWithDetails } from "./user.entity";
 
 @Resolver("User")
 export class UserResolver {
@@ -18,7 +19,9 @@ export class UserResolver {
 
     @Query()
     @UseInterceptors(NotFoundInterceptor)
-    async user(@Args() args: FindUserArgs) {
+    async user(
+        @Args() args: FindUserArgs,
+    ): Promise<UserWithDetails> {
         const { id, email } = args;
         let user: UserWithDetails;
 
@@ -32,12 +35,14 @@ export class UserResolver {
     }
 
     @Query()
-    users() {
+    users(): Promise<UserWithDetails[]> {
         return this.userService.findUsers();
     }
 
     @Mutation()
-    createUser(@Args("input") input: CreateUserDto) {
+    createUser(
+        @Args("input") input: CreateUserDto
+    ): Promise<UserWithDetails> {
         return this.userService.createUser(input);
     }
 
@@ -45,12 +50,14 @@ export class UserResolver {
     updateUser(
         @Args() { id }: UserIdArgs,
         @Args("input") input: UpdateUserDto,
-    ) {
+    ): Promise<UserWithDetails> {
         return this.userService.updateUser(id, input);
     }
 
     @Mutation()
-    deleteUser(@Args() { id }: UserIdArgs) {
+    deleteUser(
+        @Args() { id }: UserIdArgs,
+    ): Promise<DeletionSuccess> {
         return this.userService.deleteUserById(id);
     }
 }

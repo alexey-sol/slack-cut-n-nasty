@@ -4,12 +4,16 @@ import {
 
 import { NotFoundInterceptor } from "@utils/providers/validation";
 import { UseInterceptors } from "@nestjs/common";
+import { UserWithDetails } from "@root/user/user.entity";
+import DeletionSuccess from "@utils/types/DeletionSuccess";
 
 import {
-    CreateWorkspaceDto, DeleteWorkspaceArgs, FindWorkspaceArgs, FindWorkspaceMembersArgs,
+    CreateWorkspaceDto, FindWorkspaceArgs, FindWorkspaceMembersArgs, UpdateWorkspaceDto,
+    WorkspaceIdArgs,
 } from "./workspace.dto";
 
 import { WorkspaceService } from "./workspace.service";
+import { WorkspaceWithDetails } from "./workspace.entity";
 
 @Resolver("Workspace")
 export class WorkspaceResolver {
@@ -17,7 +21,9 @@ export class WorkspaceResolver {
 
     @Query()
     @UseInterceptors(NotFoundInterceptor)
-    workspace(@Args() { id }: FindWorkspaceArgs) {
+    workspace(
+        @Args() { id }: FindWorkspaceArgs,
+    ): Promise<WorkspaceWithDetails> {
         return this.workspaceService.findWorkspaceById(id);
     }
 
@@ -27,17 +33,31 @@ export class WorkspaceResolver {
     }
 
     @Query()
-    workspaceMembers(@Args() { workspaceId }: FindWorkspaceMembersArgs) {
+    workspaceMembers(
+        @Args() { workspaceId }: FindWorkspaceMembersArgs,
+    ): Promise<UserWithDetails[]> {
         return this.workspaceService.findWorkspaceMembers(workspaceId);
     }
 
     @Mutation()
-    createWorkspace(@Args("input") input: CreateWorkspaceDto) {
+    createWorkspace(
+        @Args("input") input: CreateWorkspaceDto,
+    ): Promise<WorkspaceWithDetails> {
         return this.workspaceService.createWorkspace(input);
     }
 
     @Mutation()
-    deleteWorkspace(@Args() { id }: DeleteWorkspaceArgs) {
+    updateWorkspace(
+        @Args() { id }: WorkspaceIdArgs,
+        @Args("input") input: UpdateWorkspaceDto,
+    ): Promise<WorkspaceWithDetails> {
+        return this.workspaceService.updateWorkspace(id, input);
+    }
+
+    @Mutation()
+    deleteWorkspace(
+        @Args() { id }: WorkspaceIdArgs,
+    ): Promise<DeletionSuccess> {
         return this.workspaceService.deleteWorkspaceById(id);
     }
 }
