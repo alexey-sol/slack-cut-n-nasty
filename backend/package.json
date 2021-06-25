@@ -1,6 +1,5 @@
 {
   "name": "slack-cut-n-nasty-backend",
-  "version": "0.0.1",
   "description": "Backend for slack-cut-n-nasty",
   "author": "Alexey Soloviev",
   "private": true,

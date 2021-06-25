@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "lib": ["dom", "dom.iterable", "es2020"],
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es2020",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+}

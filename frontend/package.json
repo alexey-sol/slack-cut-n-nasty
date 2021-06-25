@@ -1,0 +1,49 @@
+{
+  "name": "slack-cut-n-nasty-frontend",
+  "description": "Frontend for slack-cut-n-nasty",
+  "author": "Alexey Soloviev",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --config webpack.development.js",
+    "build": "webpack --config webpack.production.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "clean-webpack-plugin": "~4.0.0-alpha.0",
+    "fork-ts-checker-webpack-plugin": "~6.2.12",
+    "html-webpack-plugin": "~5.3.2",
+    "react": "~17.0.2",
+    "react-dom": "~17.0.2",
+    "webpack": "~5.40.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@babel/runtime": "^7.14.6",
+    "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.8",
+    "@types/webpack": "^5.28.0",
+    "@types/webpack-dev-server": "^3.11.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "^4.3.4",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
