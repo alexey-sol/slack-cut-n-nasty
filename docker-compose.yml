@@ -1,6 +1,19 @@
 version: "3.8"
 
 services:
+    frontend:
+        ports:
+            - ${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT}
+        depends_on:
+            - backend
+            - database
+        networks:
+            - slack-cut-n-nasty
+        environment:
+            - APP_NAME=${APP_NAME}
+            - BACKEND_URL=${BACKEND_URL}
+            - FRONTEND_PORT=${FRONTEND_PORT}
+            - NODE_ENV=${NODE_ENV}
     backend:
         ports:
             - ${BACKEND_PORT_EXTERNAL}:${BACKEND_PORT}
@@ -9,7 +22,9 @@ services:
         networks:
             - slack-cut-n-nasty
         environment:
+            - APP_NAME=${APP_NAME}
             - BACKEND_PORT=${BACKEND_PORT}
+            - FRONTEND_URL=${FRONTEND_URL}
             - NODE_ENV=${NODE_ENV}
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_HOST=${POSTGRES_HOST}

@@ -1,21 +1,26 @@
 import { GraphQLModule } from "@nestjs/graphql";
 import { Module } from "@nestjs/common";
-import { join } from "path";
 import { DateScalar } from "@graphql/graphql.scalar";
-import nodeEnvConst from "@utils/const/nodeEnv";
+import { Env } from "@utils/wrappers/Env";
+import { join } from "path";
+import serverConfig from "@config/server";
 
-const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
+const env = new Env();
 
 @Module({
     imports: [
         GraphQLModule.forRoot({
-            debug: !isProduction,
+            cors: {
+                origin: serverConfig().frontendUrl,
+                credentials: true,
+            },
+            debug: !env.isProduction(),
             definitions: {
                 outputAs: "class",
-                path: join(process.cwd(), "src/graphql.ts"),
+                path: join(process.cwd(), "src", "graphql.ts"),
             },
             path: "graphql",
-            playground: !isProduction,
+            playground: !env.isProduction(),
             typePaths: ["./src/**/*.graphql"],
         }),
     ],

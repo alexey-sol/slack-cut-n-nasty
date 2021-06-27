@@ -4,7 +4,9 @@ import nodeEnvConst from "@utils/const/nodeEnv";
 const { DEVELOPMENT, PRODUCTION, TEST } = nodeEnvConst;
 
 export const envSchema = Joi.object({
+    APP_NAME: Joi.string().required(),
     BACKEND_PORT: Joi.number().default(3000),
+    FRONTEND_URL: Joi.string().required(),
     NODE_ENV: Joi.string()
         .valid(DEVELOPMENT, PRODUCTION, TEST)
         .default(DEVELOPMENT),

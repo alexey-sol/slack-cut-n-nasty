@@ -1,44 +1,16 @@
-const path = require("path");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { merge } = require("webpack-merge");
+const path = require("path");
+const coreConfig = require("./webpack.core");
 
-module.exports = {
+module.exports = merge(coreConfig, {
     mode: "production",
-    entry: "./src/index.tsx",
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].[contenthash].js",
         publicPath: "",
     },
-    module: {
-        rules: [
-            {
-                test: /\.(ts|js)x?$/i,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react",
-                            "@babel/preset-typescript",
-                        ],
-                    },
-                },
-            },
-        ],
-    },
-    resolve: {
-        extensions: [".tsx", ".ts", ".js"],
-    },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: "src/index.html",
-        }),
-        new ForkTsCheckerWebpackPlugin({
-            async: false,
-        }),
         new CleanWebpackPlugin(),
     ],
-};
+});

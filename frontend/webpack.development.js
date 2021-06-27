@@ -1,50 +1,25 @@
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const { merge } = require("webpack-merge");
 const path = require("path");
 const webpack = require("webpack");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const coreConfig = require("./webpack.core");
 
-module.exports = {
+module.exports = merge(coreConfig, {
     mode: "development",
     output: {
         publicPath: "/",
     },
-    entry: "./src/index.tsx",
-    module: {
-        rules: [
-            {
-                test: /\.(ts|js)x?$/i,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react",
-                            "@babel/preset-typescript",
-                        ],
-                    },
-                },
-            },
-        ],
-    },
-    resolve: {
-        extensions: [".tsx", ".ts", ".js"],
-    },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: "src/index.html",
-        }),
         new webpack.HotModuleReplacementPlugin(),
-        new ForkTsCheckerWebpackPlugin({
-            async: false
-        }),
+        new ForkTsCheckerWebpackPlugin({ async: false }),
     ],
     devtool: "inline-source-map",
     devServer: {
         contentBase: path.join(__dirname, "dist"),
         historyApiFallback: true,
-        port: 4000,
-        open: true,
+        host: "0.0.0.0",
         hot: true,
+        open: true,
+        port: process.env.FRONTEND_PORT,
     },
-};
+});

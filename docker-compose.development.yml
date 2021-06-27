@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+    frontend:
+        container_name: slack-cut-n-nasty_dev_frontend
+        build:
+            context: ./frontend
+            dockerfile: ./build/Dockerfile.development
+        command: npm start
+        volumes:
+            - ./frontend:/app
+        stdin_open: true
     backend:
         container_name: slack-cut-n-nasty_dev_backend
         build:

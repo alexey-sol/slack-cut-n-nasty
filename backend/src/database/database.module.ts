@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
+import { Env } from "@utils/wrappers/Env";
 import databaseConfig from "@config/database";
-import nodeEnvConst from "@utils/const/nodeEnv";
 
-const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
+const env = new Env();
 
 @Module({
     imports: [
@@ -16,7 +16,7 @@ const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
             },
             entities: ["dist/**/*.entity{ .ts,.js}"],
             migrations: ["migration/*.js"],
-            synchronize: !isProduction,
+            synchronize: !env.isProduction(),
             type: "postgres",
         }),
     ],

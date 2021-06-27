@@ -1,9 +1,9 @@
 import { registerAs } from "@nestjs/config";
-import nodeEnvConst from "@const/nodeEnv";
+import { Env } from "@utils/wrappers/Env";
 
-const isProduction = process.env.NODE_ENV === nodeEnvConst.PRODUCTION;
+const env = new Env();
 
 export default registerAs("validationPipe", () => ({
-    disableErrorMessages: isProduction,
+    disableErrorMessages: env.isProduction(),
     forbidUnknownValues: true,
 }));
