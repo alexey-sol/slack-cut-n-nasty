@@ -1,5 +1,5 @@
-require("dotenv").config(); // for using env variables in Webpack config
-const Dotenv = require("dotenv-webpack");
+require("dotenv").config(); // access env variables in Webpack config
+const Dotenv = require("dotenv-webpack"); // pass env variables to the app
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { join } = require("path");
 
@@ -29,7 +29,7 @@ module.exports = {
     plugins: [
         new Dotenv({ systemvars: true }),
         new HtmlWebpackPlugin({
-            template: join(__dirname, "src", "index.html"),
+            template: join(__dirname, "public", "index.html"),
         }),
     ],
 };

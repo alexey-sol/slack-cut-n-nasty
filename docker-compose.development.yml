@@ -9,7 +9,6 @@ services:
         command: npm start
         volumes:
             - ./frontend:/app
-        stdin_open: true
     backend:
         container_name: slack-cut-n-nasty_dev_backend
         build:

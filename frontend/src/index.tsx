@@ -7,9 +7,9 @@ import {
     gql,
 } from "@apollo/client";
 
+import { Grid } from "@material-ui/core";
 import paths from "./utils/const/paths";
-
-const message = `Hello ${process.env.APP_NAME}`;
+import Auth from "./Auth";
 
 const App = () => {
     useEffect(() => {
@@ -36,7 +36,13 @@ const App = () => {
     }, []);
 
     return (
-        <h1>{message}</h1>
+        <Grid
+            alignItems="center"
+            container
+            direction="column"
+        >
+            <Auth />
+        </Grid>
     );
 };
 

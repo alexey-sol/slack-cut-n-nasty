@@ -15,11 +15,21 @@ module.exports = merge(coreConfig, {
     ],
     devtool: "inline-source-map",
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
+        clientLogLevel: "silent",
+        compress: true,
+        contentBase: path.join(__dirname, "public"),
         historyApiFallback: true,
-        host: "0.0.0.0",
+        host: "0.0.0.0", // "frontend" (the service name) also fits
         hot: true,
-        open: true,
         port: process.env.FRONTEND_PORT,
+        public: process.env.FRONTEND_URL, // [1]
+        quiet: true,
+        watchOptions: {
+            ignored: /node_modules/,
+            poll: true,
+        },
     },
 });
+
+// [1]. So, in order to make HMR work in Docker container, "public" property must be the
+// URL accessible outside the container ("http://localhost:20000" in this case).

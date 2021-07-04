@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
     frontend:
+        restart: always
         ports:
             - ${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT}
         depends_on:
@@ -13,8 +14,10 @@ services:
             - APP_NAME=${APP_NAME}
             - BACKEND_URL=${BACKEND_URL}
             - FRONTEND_PORT=${FRONTEND_PORT}
+            - FRONTEND_URL=${FRONTEND_URL}
             - NODE_ENV=${NODE_ENV}
     backend:
+        restart: always
         ports:
             - ${BACKEND_PORT_EXTERNAL}:${BACKEND_PORT}
         depends_on:
