@@ -11,10 +11,14 @@ services:
         networks:
             - slack-cut-n-nasty
         environment:
+            - API_PREFIX=${API_PREFIX}
             - APP_NAME=${APP_NAME}
-            - BACKEND_URL=${BACKEND_URL}
+            - BACKEND_PORT=${BACKEND_PORT}
+            - BACKEND_PORT_EXTERNAL=${BACKEND_PORT_EXTERNAL}
+            - BACKEND_SERVICE_NAME=${BACKEND_SERVICE_NAME}
             - FRONTEND_PORT=${FRONTEND_PORT}
-            - FRONTEND_URL=${FRONTEND_URL}
+            - FRONTEND_PORT_EXTERNAL=${FRONTEND_PORT_EXTERNAL}
+            - FRONTEND_SERVICE_NAME=${FRONTEND_SERVICE_NAME}
             - NODE_ENV=${NODE_ENV}
     backend:
         restart: always
@@ -25,9 +29,14 @@ services:
         networks:
             - slack-cut-n-nasty
         environment:
+            - API_PREFIX=${API_PREFIX}
             - APP_NAME=${APP_NAME}
             - BACKEND_PORT=${BACKEND_PORT}
-            - FRONTEND_URL=${FRONTEND_URL}
+            - BACKEND_PORT_EXTERNAL=${BACKEND_PORT_EXTERNAL}
+            - FRONTEND_PORT_EXTERNAL=${FRONTEND_PORT_EXTERNAL}
+            - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+            - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+            - GOOGLE_REDIRECT_PATH=${GOOGLE_REDIRECT_PATH}
             - NODE_ENV=${NODE_ENV}
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_HOST=${POSTGRES_HOST}

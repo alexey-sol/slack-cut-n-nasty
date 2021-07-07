@@ -8,13 +8,13 @@ import {
 } from "@apollo/client";
 
 import { Grid } from "@material-ui/core";
-import paths from "./utils/const/paths";
+import config from "./utils/config/app";
 import Auth from "./Auth";
 
 const App = () => {
     useEffect(() => {
         const client = new ApolloClient({
-            uri: `${process.env.BACKEND_URL}/${paths.GRAPHQL_ENDPOINT}`,
+            uri: config.graphqlUri,
             cache: new InMemoryCache(),
         });
 

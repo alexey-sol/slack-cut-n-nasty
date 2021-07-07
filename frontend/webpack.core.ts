@@ -1,9 +1,11 @@
 require("dotenv").config(); // access env variables in Webpack config
-const Dotenv = require("dotenv-webpack"); // pass env variables to the app
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { join } = require("path");
 
-module.exports = {
+import Dotenv from "dotenv-webpack"; // pass env variables to the app
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { join } from "path";
+import webpack from "webpack";
+
+const config: webpack.Configuration = {
     entry: join(__dirname, "src", "index.tsx"),
     module: {
         rules: [
@@ -33,3 +35,5 @@ module.exports = {
         }),
     ],
 };
+
+export default config;

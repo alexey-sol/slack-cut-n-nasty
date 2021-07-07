@@ -4,22 +4,31 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import names from "./utils/const/providerNames";
 
-const Auth = () => (
-    <Box>
-        <Typography variant="h4" component="h1" gutterBottom>
-            Sign in using:
-        </Typography>
+const Auth = () => {
+    const openWindowToSignUpViaGoogle = () => {
+        window.open("/api/oauth/google");
+    };
 
-        <Box display="flex" justifyContent="center">
-            <List>
-                <ListItem button>
-                    <ListItemText primary="Google" />
-                </ListItem>
-            </List>
+    return (
+        <Box>
+            <Typography variant="h4" component="h1" gutterBottom>
+                Sign in using:
+            </Typography>
+
+            <Box display="flex" justifyContent="center">
+                <List>
+                    <ListItem button>
+                        <ListItemText
+                            onClick={openWindowToSignUpViaGoogle}
+                            primary={names.GOOGLE}
+                        />
+                    </ListItem>
+                </List>
+            </Box>
         </Box>
-
-    </Box>
-);
+    );
+};
 
 export default Auth;
