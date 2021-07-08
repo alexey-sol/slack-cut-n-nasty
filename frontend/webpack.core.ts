@@ -1,9 +1,10 @@
-require("dotenv").config(); // access env variables in Webpack config
-
-import Dotenv from "dotenv-webpack"; // pass env variables to the app
+import dotenv from "dotenv"; // access env variables in Webpack config
+import DotenvWebpack from "dotenv-webpack"; // pass env variables to the app
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { join } from "path";
 import webpack from "webpack";
+
+dotenv.config();
 
 const config: webpack.Configuration = {
     entry: join(__dirname, "src", "index.tsx"),
@@ -29,7 +30,7 @@ const config: webpack.Configuration = {
         extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
-        new Dotenv({ systemvars: true }),
+        new DotenvWebpack({ systemvars: true }),
         new HtmlWebpackPlugin({
             template: join(__dirname, "public", "index.html"),
         }),

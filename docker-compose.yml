@@ -37,6 +37,8 @@ services:
             - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
             - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
             - GOOGLE_REDIRECT_PATH=${GOOGLE_REDIRECT_PATH}
+            - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+            - JWT_SECRET=${JWT_SECRET}
             - NODE_ENV=${NODE_ENV}
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_HOST=${POSTGRES_HOST}

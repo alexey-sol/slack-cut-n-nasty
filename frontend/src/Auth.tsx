@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -7,6 +7,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import names from "./utils/const/providerNames";
 
 const Auth = () => {
+    useEffect(() => {
+        fetch("/api/oauth").catch(console.error);
+    }, []);
+
     const openWindowToSignUpViaGoogle = () => {
         window.open("/api/oauth/google");
     };
