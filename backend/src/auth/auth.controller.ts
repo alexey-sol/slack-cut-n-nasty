@@ -4,18 +4,8 @@ import {
 import { ConfigService } from "@nestjs/config";
 
 import { AuthService } from "@root/auth/auth.service";
-import { UserWithDetails } from "@root/user/user.entity";
-import { GoogleAuthGuard, JwtAuthGuard } from "./auth.guards";
+import { GoogleAuthGuard } from "./auth.guards";
 import { cookieOptions } from "./auth.const";
-
-@Controller("oauth")
-export class AuthController {
-    @UseGuards(JwtAuthGuard)
-    @Get()
-    async getSession(@Req() req): Promise<UserWithDetails> {
-        return req.user;
-    }
-}
 
 @Controller("oauth/google")
 export class GoogleAuthController {
@@ -32,10 +22,9 @@ export class GoogleAuthController {
     @Get("redirect")
     @Redirect()
     async redirect(@Req() req) {
+        const accessTokenKey = cookieOptions.ACCESS_TOKEN_KEY;
         const { user: profile } = req;
         const result = await this.authService.signIn(profile);
-
-        const accessTokenKey = cookieOptions.ACCESS_TOKEN_KEY;
 
         req.res.cookie(accessTokenKey, result.accessToken, {
             expires: new Date(Date.now() + cookieOptions.EXPIRES_AFTER_MS),

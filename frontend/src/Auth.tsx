@@ -4,11 +4,33 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import { gql } from "@apollo/client";
 import names from "./utils/const/providerNames";
+import { client } from "./utils/gql";
 
 const Auth = () => {
     useEffect(() => {
-        fetch("/api/oauth").catch(console.error);
+        client
+            .query({
+                query: gql`
+                    query Auth {
+                        auth {
+                            id
+                            date {
+                                create
+                                update
+                            }
+                            email
+                            details {
+                                fullName
+                                imageUrl
+                            }
+                        }
+                    }
+                `,
+            })
+            .then((user) => console.log("Here's session", user))
+            .catch(console.error);
     }, []);
 
     const openWindowToSignUpViaGoogle = () => {
