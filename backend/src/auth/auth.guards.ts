@@ -7,7 +7,7 @@ import { strategyNames as names } from "./auth.const";
 export class GoogleAuthGuard extends AuthGuard(names.GOOGLE) {}
 
 @Injectable()
-export class GqlAuthGuard extends AuthGuard(names.JWT) {
+export class GqlJwtAuthGuard extends AuthGuard(names.JWT) {
     getRequest(context: ExecutionContext) {
         const ctx = GqlExecutionContext.create(context);
         return ctx.getContext().req;

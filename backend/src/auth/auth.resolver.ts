@@ -2,11 +2,11 @@ import { Query, Resolver } from "@nestjs/graphql";
 import { UseGuards } from "@nestjs/common";
 import { UserWithDetails } from "@root/user/user.entity";
 import { CurrentUser } from "./auth.decorators";
-import { GqlAuthGuard } from "./auth.guards";
+import { GqlJwtAuthGuard } from "./auth.guards";
 
 @Resolver("Auth")
 export class AuthResolver {
-    @UseGuards(GqlAuthGuard)
+    @UseGuards(GqlJwtAuthGuard)
     @Query()
     auth(@CurrentUser() user: UserWithDetails): UserWithDetails {
         return user;

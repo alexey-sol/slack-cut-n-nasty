@@ -11,11 +11,13 @@ services:
             - ./frontend:/app
     backend:
         container_name: slack-cut-n-nasty_dev_backend
+        ports:
+            - ${BACKEND_PORT_DEBUG}:${BACKEND_PORT_DEBUG}
         build:
             context: ./backend
             dockerfile: ./build/Dockerfile.development
         volumes:
             - ./backend:/app
-        command: npm run start:dev
+        command: npm run start:debug
     database:
         container_name: slack-cut-n-nasty_dev_database
