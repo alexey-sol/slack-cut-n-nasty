@@ -6,5 +6,5 @@ export default {
     nodeEnv: process.env.NODE_ENV,
     get graphqlUri() {
         return `${this.backendUrl}/${paths.GRAPHQL_ENDPOINT}`;
-    }
+    },
 };

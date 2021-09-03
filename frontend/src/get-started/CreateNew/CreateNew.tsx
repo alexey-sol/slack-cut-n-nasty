@@ -5,10 +5,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { gql } from "@apollo/client";
-import names from "./utils/const/providerNames";
-import { client } from "./utils/gql";
+import names from "../../utils/const/providerNames";
+import { client } from "../../utils/gql";
+import { Layout } from "../common/Layout";
 
-const Auth = () => {
+export const CreateNew = () => {
     useEffect(() => {
         client
             .query({
@@ -38,7 +39,7 @@ const Auth = () => {
     };
 
     return (
-        <Box>
+        <Layout>
             <Typography variant="h4" component="h1" gutterBottom>
                 Sign in using:
             </Typography>
@@ -53,8 +54,6 @@ const Auth = () => {
                     </ListItem>
                 </List>
             </Box>
-        </Box>
+        </Layout>
     );
 };
-
-export default Auth;

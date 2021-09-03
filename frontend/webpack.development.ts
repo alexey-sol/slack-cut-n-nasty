@@ -25,14 +25,14 @@ const config: Configuration = merge<Configuration>(coreConfig, {
         compress: true,
         contentBase: path.join(__dirname, "public"),
         historyApiFallback: true,
-        host: env.frontendServiceName,
+        host: env.frontendHost,
         hot: true,
         port: env.frontendPort,
         proxy: {
             [`/${env.apiPrefix}`]: env.backendUrlInner,
         },
         public: env.frontendUrl, // [1]
-        quiet: true,
+        quiet: false,
         watchOptions: {
             ignored: /node_modules/,
             poll: true,

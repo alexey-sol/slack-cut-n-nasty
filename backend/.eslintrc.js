@@ -42,7 +42,7 @@ module.exports = {
                     ["@const", "./src/utils/const"],
                     ["@graphql", "./src/graphql"],
                     ["@root", "./src"],
-                    ["@utils", "./src/utils"]
+                    ["@utils", "./src/utils"],
                 ],
             },
             node: {

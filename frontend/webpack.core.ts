@@ -1,7 +1,7 @@
 import dotenv from "dotenv"; // access env variables in Webpack config
 import DotenvWebpack from "dotenv-webpack"; // pass env variables to the app
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { join } from "path";
+import { join, resolve } from "path";
 import webpack from "webpack";
 
 dotenv.config();
@@ -27,6 +27,13 @@ const config: webpack.Configuration = {
         ],
     },
     resolve: {
+        alias: {
+            "@": resolve(__dirname, "src/"),
+            "@config": resolve(__dirname, "src/utils/config/"),
+            "@const": resolve(__dirname, "src/utils/const/"),
+            "@gql": resolve(__dirname, "src/utils/gql/"),
+            "@helpers": resolve(__dirname, "src/utils/helpers/"),
+        },
         extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [

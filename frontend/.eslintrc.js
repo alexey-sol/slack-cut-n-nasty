@@ -4,26 +4,30 @@ module.exports = {
         es2021: true,
     },
     extends: [
-        "plugin:react/recommended",
         "airbnb",
+        "plugin:react/recommended",
+        "plugin:import/typescript",
     ],
+    ignorePatterns: ["node_modules/"],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
         },
-        ecmaVersion: 12,
+        ecmaVersion: 2020,
         sourceType: "module",
     },
     plugins: [
+        "@typescript-eslint",
         "react",
         "react-hooks",
-        "@typescript-eslint",
+        "import",
     ],
     rules: {
         "class-methods-use-this": 0,
-        "import/prefer-default-export": 0,
         "import/extensions": 0,
+        "import/no-unresolved": "error",
+        "import/prefer-default-export": 0,
         indent: ["error", 4, { SwitchCase: 1 }],
         quotes: [2, "double"],
         "lines-between-class-members": 0,
@@ -36,8 +40,31 @@ module.exports = {
         "no-useless-constructor": 0,
         "react/jsx-filename-extension": [1, { extensions: [".tsx", ".ts"] }],
         "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+        "react/jsx-props-no-spreading": 0,
         "react/prop-types": 0,
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
+    },
+    settings: {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".js", ".jsx", ".ts", ".tsx"],
+        },
+        "import/resolver": {
+            alias: {
+                extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+                map: [
+                    ["@", "./src"],
+                    ["@config", "./src/utils/config"],
+                    ["@const", "./src/utils/const"],
+                    ["@gql", "./src/utils/gql"],
+                    ["@helpers", "./src/utils/helpers"],
+                ],
+            },
+            node: {
+                extensions: [".js", ".jsx", ".ts", ".tsx"],
+                paths: ["src"],
+            },
+        },
     },
 };

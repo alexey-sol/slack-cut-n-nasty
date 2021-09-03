@@ -12,7 +12,15 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react"
+        "jsx": "react",
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@config/*": ["./src/utils/config/*"],
+            "@const/*": ["./src/utils/const/*"],
+            "@gql/*": ["./src/utils/gql/*"],
+            "@helpers/*": ["./src/utils/helpers/*"],
+        }
     },
     "include": ["webpack.*.ts", "src"],
     "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]

@@ -15,10 +15,10 @@ services:
             - APP_NAME
             - BACKEND_PORT
             - BACKEND_PORT_EXTERNAL
-            - BACKEND_SERVICE_NAME
+            - BACKEND_HOST
+            - FRONTEND_HOST
             - FRONTEND_PORT
             - FRONTEND_PORT_EXTERNAL
-            - FRONTEND_SERVICE_NAME
             - NODE_ENV
     backend:
         restart: always
@@ -31,10 +31,10 @@ services:
         environment:
             - API_PREFIX
             - APP_NAME
+            - BACKEND_HOST
             - BACKEND_PORT
             - BACKEND_PORT_DEBUG
             - BACKEND_PORT_EXTERNAL
-            - BACKEND_SERVICE_NAME
             - FRONTEND_PORT_EXTERNAL
             - GOOGLE_CLIENT_ID
             - GOOGLE_CLIENT_SECRET
@@ -48,6 +48,7 @@ services:
             - POSTGRES_PORT
             - POSTGRES_USER
     database:
+        container_name: slack-cut-n-nasty_database
         image: postgres:13.3-alpine
         restart: always
         ports:

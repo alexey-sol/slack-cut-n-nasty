@@ -5,19 +5,20 @@ services:
         container_name: slack-cut-n-nasty_dev_frontend
         build:
             context: ./frontend
-            dockerfile: ./build/Dockerfile.development
+            dockerfile: ./builder/Dockerfile.development
         command: npm start
+        tty: true
         volumes:
             - ./frontend:/app
+            # - /app/node_modules
     backend:
         container_name: slack-cut-n-nasty_dev_backend
         ports:
             - ${BACKEND_PORT_DEBUG}:${BACKEND_PORT_DEBUG}
         build:
             context: ./backend
-            dockerfile: ./build/Dockerfile.development
+            dockerfile: ./builder/Dockerfile.development
         volumes:
             - ./backend:/app
+            # - /app/node_modules
         command: npm run start:debug
-    database:
-        container_name: slack-cut-n-nasty_dev_database
