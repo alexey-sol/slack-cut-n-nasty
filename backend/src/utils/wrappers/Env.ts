@@ -1,4 +1,4 @@
-import nodeEnvConst from "@const/nodeEnv";
+import nodeEnvConst from "../const/nodeEnv";
 
 export class Env {
     constructor(private env = process.env) {}

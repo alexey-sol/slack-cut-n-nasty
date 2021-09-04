@@ -35,6 +35,10 @@ module.exports = {
         "max-len": ["error", { code: 100 }],
         "no-else-return": 0,
         "no-empty-function": 0,
+        "no-param-reassign": ["error", {
+            ignorePropertyModificationsFor: ["state"],
+            props: true,
+        }],
         "no-unused-vars": ["error", { args: "none" }],
         "no-use-before-define": 0,
         "no-useless-constructor": 0,
@@ -59,6 +63,7 @@ module.exports = {
                     ["@const", "./src/utils/const"],
                     ["@gql", "./src/utils/gql"],
                     ["@helpers", "./src/utils/helpers"],
+                    ["@hooks", "./src/app/hooks"],
                 ],
             },
             node: {

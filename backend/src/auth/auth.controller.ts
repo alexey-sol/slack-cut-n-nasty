@@ -31,8 +31,11 @@ export class GoogleAuthController {
             httpOnly: cookieOptions.HTTP_ONLY,
         });
 
+        const origin = this.configService.get<string>("server.frontendUrl");
+
         return {
-            url: this.configService.get<string>("server.frontendUrl"),
+            statusCode: 301,
+            url: `${origin}/get-started/landing`,
         };
     }
 }

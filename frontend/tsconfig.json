@@ -18,8 +18,9 @@
             "@/*": ["./src/*"],
             "@config/*": ["./src/utils/config/*"],
             "@const/*": ["./src/utils/const/*"],
-            "@gql/*": ["./src/utils/gql/*"],
+            "@gql": ["./src/utils/gql"],
             "@helpers/*": ["./src/utils/helpers/*"],
+            "@hooks": ["./src/app/hooks"],
         }
     },
     "include": ["webpack.*.ts", "src"],

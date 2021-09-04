@@ -1,5 +1,4 @@
 import { envSchema } from "./config.validation";
-import paths from "../../const/paths";
 
 const { error, value } = envSchema.validate(process.env, {
     stripUnknown: true,
@@ -21,8 +20,6 @@ export default {
     frontendPort: parseInt(value.FRONTEND_PORT, 10),
     frontendPortExternal: parseInt(value.FRONTEND_PORT_EXTERNAL, 10),
     frontendUrl: `http://localhost:${value.FRONTEND_PORT_EXTERNAL}`,
+    graphqlPrefix: value.GRAPHQL_PREFIX,
     nodeEnv: value.NODE_ENV,
-    get graphqlUri() {
-        return `${this.backendUrl}/${paths.GRAPHQL_ENDPOINT}`;
-    },
 };

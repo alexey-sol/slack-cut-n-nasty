@@ -4,35 +4,22 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { gql } from "@apollo/client";
-import names from "../../utils/const/providerNames";
-import { client } from "../../utils/gql";
+import names from "@const/providerNames";
+import { fetchSession } from "@/session/redux/actions";
+import { useAppDispatch, useAppSelector } from "@hooks";
+import { RootState } from "@/app/store";
 import { Layout } from "../common/Layout";
 
 export const CreateNew = () => {
+    const dispatch = useAppDispatch();
+
+    const loading = useAppSelector((state: RootState) => state.session.loading);
+    const currentUser = useAppSelector((state: RootState) => state.session.currentUser);
+    console.log("session state", loading, currentUser);
+
     useEffect(() => {
-        client
-            .query({
-                query: gql`
-                    query Auth {
-                        auth {
-                            id
-                            date {
-                                create
-                                update
-                            }
-                            email
-                            details {
-                                fullName
-                                imageUrl
-                            }
-                        }
-                    }
-                `,
-            })
-            .then((user) => console.log("Here's session", user))
-            .catch(console.error);
-    }, []);
+        dispatch(fetchSession());
+    }, [dispatch]);
 
     const openWindowToSignUpViaGoogle = () => {
         window.open("/api/oauth/google");

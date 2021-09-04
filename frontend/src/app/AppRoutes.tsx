@@ -17,6 +17,7 @@ export const AppRoutes = () => (
         />
         <GetStartedRoute
             component={CreateNew}
+            exact
             path="/get-started"
         />
         <GetStartedRoute

@@ -12,6 +12,7 @@ export const envSchema = Joi.object({
     FRONTEND_HOST: Joi.string().required(),
     FRONTEND_PORT: Joi.number().required(),
     FRONTEND_PORT_EXTERNAL: Joi.number().required(),
+    GRAPHQL_PREFIX: Joi.string().default("graphql"),
     NODE_ENV: Joi.string()
         .valid(DEVELOPMENT, PRODUCTION, TEST)
         .default(DEVELOPMENT),
