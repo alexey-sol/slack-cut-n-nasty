@@ -8,13 +8,17 @@ import names from "@const/providerNames";
 import { fetchSession } from "@/session/redux/actions";
 import { useAppDispatch, useAppSelector } from "@hooks";
 import { RootState } from "@/app/store";
+import { checkIfLoading } from "@/ui/redux/selectors";
 import { Layout } from "../common/Layout";
 
 export const CreateNew = () => {
     const dispatch = useAppDispatch();
 
-    const loading = useAppSelector((state: RootState) => state.session.loading);
-    const currentUser = useAppSelector((state: RootState) => state.session.currentUser);
+    const currentUser = useAppSelector((state: RootState) => state.session.currentUser) as any;
+    const loading = useAppSelector(
+        (state: RootState) => checkIfLoading(state, "session/fetchSession"),
+    );
+
     console.log("session state", loading, currentUser);
 
     useEffect(() => {
