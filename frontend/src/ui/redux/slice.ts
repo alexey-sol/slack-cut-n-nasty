@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import isEqual from "lodash.isequal";
 import { startAction, stopAction } from "./actions";
 
 export interface Action {
     name: string;
-    params: unknown;
+    params?: unknown;
 }
 
 export interface UiState {
@@ -26,14 +26,15 @@ const uiSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(startAction, (state, { payload }) => {
-            state.loader.actions.push(payload.action);
+        builder.addCase(startAction, (state, { payload }: PayloadAction<Action>) => {
+            state.loader.actions.push(payload);
         });
-        builder.addCase(stopAction, (state, { payload }) => {
+
+        builder.addCase(stopAction, (state, { payload }: PayloadAction<Action>) => {
             state.loader.actions = state.loader.actions.filter((currentAction) => {
-                if (currentAction.name !== payload.action.name) {
+                if (currentAction.name !== payload.name) {
                     return true;
-                } else if (!isEqual(currentAction.params, payload.action.params)) {
+                } else if (!isEqual(currentAction.params, payload.params)) {
                     return true;
                 } else {
                     return false;

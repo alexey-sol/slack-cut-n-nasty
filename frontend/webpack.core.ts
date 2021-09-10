@@ -34,6 +34,7 @@ const config: webpack.Configuration = {
             "@gql": resolve(__dirname, "src/utils/gql/"),
             "@helpers": resolve(__dirname, "src/utils/helpers/"),
             "@hooks": resolve(__dirname, "src/app/hooks/"),
+            "@wrappers": resolve(__dirname, "src/utils/wrappers/"),
         },
         extensions: [".tsx", ".ts", ".js"],
     },

@@ -68,6 +68,7 @@ module.exports = {
                     ["@gql", "./src/utils/gql"],
                     ["@helpers", "./src/utils/helpers"],
                     ["@hooks", "./src/app/hooks"],
+                    ["@wrappers", "./src/utils/wrappers"],
                 ],
             },
             node: {
