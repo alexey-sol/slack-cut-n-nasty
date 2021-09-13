@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import { Env } from "@utils/wrappers/Env";
 import databaseConfig from "@config/database";
+import { Env } from "@root/utils/wrappers/Env";
+import { ormConfig } from "./ormconfig";
 
 const env = new Env();
 
@@ -10,14 +11,8 @@ const env = new Env();
     imports: [
         ConfigModule.forFeature(databaseConfig),
         TypeOrmModule.forRoot({
-            ...databaseConfig(),
-            cli: {
-                migrationsDir: "migration",
-            },
-            entities: ["dist/**/*.entity{ .ts,.js}"],
-            migrations: ["migration/*.js"],
-            synchronize: !env.isProduction(),
-            type: "postgres",
+            ...ormConfig as TypeOrmModuleOptions,
+            autoLoadEntities: env.isProduction(),
         }),
     ],
 })

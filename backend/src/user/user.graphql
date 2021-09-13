@@ -1,3 +1,8 @@
+type AuthProvider {
+    id: Int!
+    provider: String!
+}
+
 type UserDetails {
     displayName: String!
     fullName: String!
@@ -12,6 +17,7 @@ type User {
     id: Int!
     joinedWorkspaces: [Workspace!]!
     ownWorkspaces: [Workspace!]!
+    provider: AuthProvider!
 }
 
 input CreateUserDetailsInput {
@@ -23,6 +29,7 @@ input CreateUserDetailsInput {
 input CreateUserInput {
     email: String!
     details: CreateUserDetailsInput!
+    provider: String!
 }
 
 input UpdateUserDetailsInput {
@@ -34,6 +41,7 @@ input UpdateUserDetailsInput {
 input UpdateUserInput {
     email: String
     details: UpdateUserDetailsInput
+    provider: String
 }
 
 type Query {

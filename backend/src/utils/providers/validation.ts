@@ -12,6 +12,8 @@ import { TargetNotFound } from "@utils/exceptions/http";
 import { tap } from "rxjs/operators";
 import { WorkspaceRepository } from "@root/workspace/workspace.repository";
 import { UserRepository } from "@root/user/user.repository";
+import providers from "@const/providers";
+import { Text } from "@utils/wrappers/Text";
 
 abstract class RecordExists implements ValidatorConstraintInterface {
     protected constructor(protected repository: Repository<unknown>) {}
@@ -41,6 +43,26 @@ export class UserExists extends RecordExists {
 export class WorkspaceExists extends RecordExists {
     constructor(repository: WorkspaceRepository) {
         super(repository);
+    }
+}
+
+@ValidatorConstraint({ name: "IsValidProvider" })
+@Injectable()
+export class IsValidProvider implements ValidatorConstraintInterface {
+    validate(provider: string) {
+        const providerToCheck = new Text(provider).normalize();
+
+        const knownProviders = Object
+            .values(providers)
+            .map((knownProvider) => new Text(knownProvider).normalize());
+
+        const isValidProvider = knownProviders.includes(providerToCheck);
+
+        if (!isValidProvider) {
+            throw new TargetNotFound(`AuthProvider "${provider}"`);
+        }
+
+        return true;
     }
 }
 

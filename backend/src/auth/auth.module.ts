@@ -4,6 +4,8 @@ import { Module } from "@nestjs/common";
 import jwtConfig from "@config/jwt";
 import { UserModule } from "@root/user/user.module";
 import { UserService } from "@root/user/user.service";
+import { Validator } from "class-validator";
+import { ClassTransformer } from "class-transformer";
 import { GoogleAuthController } from "./auth.controller";
 import { GoogleStrategy } from "./auth.strategy/google.strategy";
 import { JwtStrategy } from "./auth.strategy/jwt.strategy";
@@ -21,7 +23,10 @@ const { expiresIn, secret } = jwtConfig();
         }),
     ],
     controllers: [GoogleAuthController],
-    providers: [AuthResolver, AuthService, GoogleStrategy, JwtStrategy, UserService],
+    providers: [
+        AuthResolver, AuthService, GoogleStrategy, JwtStrategy, UserService, Validator,
+        ClassTransformer,
+    ],
     exports: [AuthService, JwtModule],
 })
 

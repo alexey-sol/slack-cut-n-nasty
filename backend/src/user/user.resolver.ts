@@ -41,7 +41,7 @@ export class UserResolver {
 
     @Mutation()
     createUser(
-        @Args("input") input: CreateUserDto
+        @Args("input") input: CreateUserDto,
     ): Promise<UserWithDetails> {
         return this.userService.createUser(input);
     }

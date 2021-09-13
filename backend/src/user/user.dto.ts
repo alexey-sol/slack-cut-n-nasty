@@ -5,7 +5,7 @@ import {
 
 import { OmitType, PartialType } from "@nestjs/mapped-types";
 import { Type } from "class-transformer";
-import { UserExists } from "@utils/providers/validation";
+import { IsValidProvider, UserExists } from "@utils/providers/validation";
 
 class CreateDetailsDto {
     @IsOptional()
@@ -43,6 +43,13 @@ export class CreateUserDto {
     @ValidateNested()
     @Type(() => CreateDetailsDto)
     details!: CreateDetailsDto;
+
+    @IsDefined()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(200)
+    @Validate(IsValidProvider)
+    provider!: string;
 }
 
 class UpdateDetailsDto extends PartialType(CreateDetailsDto) {}

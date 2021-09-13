@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
     frontend:
-        container_name: slack-cut-n-nasty_dev_frontend
+        container_name: slack-cut-n-nasty_frontend_dev
         build:
             context: ./frontend
             dockerfile: ./builder/Dockerfile.development
@@ -12,7 +12,7 @@ services:
             - ./frontend:/app
             # - /app/node_modules
     backend:
-        container_name: slack-cut-n-nasty_dev_backend
+        container_name: slack-cut-n-nasty_backend_dev
         ports:
             - ${BACKEND_PORT_DEBUG}:${BACKEND_PORT_DEBUG}
         build:

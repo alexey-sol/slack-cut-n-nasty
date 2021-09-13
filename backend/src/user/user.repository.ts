@@ -3,7 +3,7 @@ import { User } from "./user.entity";
 
 const relations = [
     "details", "joinedWorkspaces", "joinedWorkspaces.details", "ownWorkspaces",
-    "ownWorkspaces.details",
+    "ownWorkspaces.details", "provider",
 ];
 
 @EntityRepository(User)

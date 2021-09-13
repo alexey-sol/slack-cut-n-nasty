@@ -1,10 +1,11 @@
 import {
-    Column, Entity, Index, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Date } from "@utils/db/entities";
-import { Workspace } from "../workspace/workspace.entity";
-import { UserDetails } from "../userDetails/userDetails.entity";
+import { AuthProvider } from "@root/auth/authProvider.entity";
+import { Workspace } from "@root/workspace/workspace.entity";
+import { UserDetails } from "@root/userDetails/userDetails.entity";
 
 @Entity()
 export class User {
@@ -32,6 +33,11 @@ export class User {
         nullable: false,
     })
     ownWorkspaces: Workspace[];
+
+    @ManyToOne((type) => AuthProvider, null, {
+        nullable: false,
+    })
+    provider: AuthProvider;
 }
 
 export class UserWithDetails extends User {

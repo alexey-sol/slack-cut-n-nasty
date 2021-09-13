@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import DeletionSuccess from "@utils/types/DeletionSuccess";
+import { AuthProvider } from "@root/auth/authProvider.entity";
 import { CreateUserDto, UpdateUserDto } from "./user.dto";
 import { UserDetails } from "../userDetails/userDetails.entity";
 import { UserRepository } from "./user.repository";
@@ -14,6 +15,9 @@ export class UserService {
 
         @InjectRepository(UserDetails)
         private detailsRepository: Repository<UserDetails>,
+
+        @InjectRepository(AuthProvider)
+        private authProviderRepository: Repository<AuthProvider>,
     ) {}
 
     findUserById(id: number): Promise<UserWithDetails> {
@@ -29,9 +33,11 @@ export class UserService {
     }
 
     async createUser(
-        { details, email }: CreateUserDto,
-    ): Promise<UserWithDetails> {
+        { details, email, provider }: CreateUserDto,
+    ): Promise<UserWithDetails | undefined> {
         const { displayName, fullName, imageUrl } = details;
+
+        const providerRecord = await this.authProviderRepository.findOne({ provider });
 
         const detailsEntity = this.detailsRepository.create();
         detailsEntity.fullName = fullName;
@@ -43,6 +49,7 @@ export class UserService {
         user.joinedWorkspaces = [];
         user.ownWorkspaces = [];
         user.details = detailsEntity;
+        user.provider = providerRecord;
 
         return this.userRepository.save(user);
     }
