@@ -8,41 +8,64 @@ import {
 
 import { Repository } from "typeorm";
 import { Observable } from "rxjs";
-import { TargetNotFound } from "@utils/exceptions/http";
+import * as exceptions from "@root/httpExceptions/httpExceptions";
 import { tap } from "rxjs/operators";
 import { WorkspaceRepository } from "@root/workspace/workspace.repository";
 import { UserRepository } from "@root/user/user.repository";
 import providers from "@const/providers";
 import { Text } from "@utils/wrappers/Text";
+import { codes } from "@root/httpExceptions/httpExceptions.const";
+import { createExceptionMessage } from "@root/httpExceptions/httpExceptions.utils";
 
-abstract class RecordExists implements ValidatorConstraintInterface {
+abstract class RecordShouldExist implements ValidatorConstraintInterface {
     protected constructor(protected repository: Repository<unknown>) {}
 
     async validate(id: number, args: ValidationArguments) {
         const record = await this.repository.findOne(id);
+        return record !== undefined;
+    }
 
-        if (record === undefined) {
-            const { targetName } = this.repository.metadata;
-            throw new TargetNotFound(targetName);
-        }
-
-        return true;
+    defaultMessage(args: ValidationArguments) {
+        return createExceptionMessage({
+            code: codes.NOT_FOUND,
+            isValidationError: true,
+            targetName: this.repository.metadata.targetName,
+        });
     }
 }
 
-@ValidatorConstraint({ name: "UserExists", async: true })
+@ValidatorConstraint({ name: "UserShouldExist", async: true })
 @Injectable()
-export class UserExists extends RecordExists {
+export class UserShouldExist extends RecordShouldExist {
     constructor(repository: UserRepository) {
         super(repository);
     }
 }
 
-@ValidatorConstraint({ name: "WorkspaceExists", async: true })
+@ValidatorConstraint({ name: "WorkspaceShouldExist", async: true })
 @Injectable()
-export class WorkspaceExists extends RecordExists {
+export class WorkspaceShouldExist extends RecordShouldExist {
     constructor(repository: WorkspaceRepository) {
         super(repository);
+    }
+}
+
+@ValidatorConstraint({ name: "UserAlreadyExists", async: true })
+@Injectable()
+export class UserAlreadyExists implements ValidatorConstraintInterface {
+    constructor(protected repository: UserRepository) {}
+
+    async validate(email: string, args: ValidationArguments) {
+        const record = await this.repository.findByEmail(email);
+        return record === undefined;
+    }
+
+    defaultMessage(args: ValidationArguments) {
+        return createExceptionMessage({
+            code: codes.ALREADY_EXISTS,
+            isValidationError: true,
+            targetName: this.repository.metadata.targetName,
+        });
     }
 }
 
@@ -56,13 +79,15 @@ export class IsValidProvider implements ValidatorConstraintInterface {
             .values(providers)
             .map((knownProvider) => new Text(knownProvider).normalize());
 
-        const isValidProvider = knownProviders.includes(providerToCheck);
+        return knownProviders.includes(providerToCheck);
+    }
 
-        if (!isValidProvider) {
-            throw new TargetNotFound(`AuthProvider "${provider}"`);
-        }
-
-        return true;
+    defaultMessage(args: ValidationArguments) {
+        return createExceptionMessage({
+            code: codes.NOT_FOUND,
+            isValidationError: true,
+            targetName: "AuthProvider",
+        });
     }
 }
 
@@ -74,7 +99,7 @@ export class NotFoundInterceptor implements NestInterceptor {
             .pipe(tap((data) => {
                 if (data === undefined) {
                     const targetName = context.getArgByIndex(3).returnType;
-                    throw new TargetNotFound(targetName);
+                    throw new exceptions.TargetNotFoundException(targetName);
                 }
             }));
     }

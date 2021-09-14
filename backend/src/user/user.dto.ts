@@ -5,7 +5,7 @@ import {
 
 import { OmitType, PartialType } from "@nestjs/mapped-types";
 import { Type } from "class-transformer";
-import { IsValidProvider, UserExists } from "@utils/providers/validation";
+import { IsValidProvider, UserAlreadyExists, UserShouldExist } from "@utils/providers/validation";
 
 class CreateDetailsDto {
     @IsOptional()
@@ -36,6 +36,7 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsEmail()
     @MaxLength(100)
+    @Validate(UserAlreadyExists)
     email!: string;
 
     @IsDefined()
@@ -65,13 +66,14 @@ export class UpdateUserDto extends PartialType(
 export class UserIdArgs {
     @IsDefined()
     @IsInt()
-    @Validate(UserExists)
+    @Validate(UserShouldExist)
     id!: number;
 }
 
 export class FindUserArgs {
     @IsOptional()
     @IsInt()
+    @Validate(UserShouldExist)
     id?: number;
 
     @IsOptional()

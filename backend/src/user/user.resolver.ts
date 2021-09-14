@@ -3,7 +3,8 @@ import {
 } from "@nestjs/graphql";
 
 import { NotFoundInterceptor } from "@utils/providers/validation";
-import { UseInterceptors } from "@nestjs/common";
+import { UseFilters, UseInterceptors } from "@nestjs/common";
+import { HttpGqlExceptionFilter } from "@root/httpExceptions/httpExceptions.filter";
 import DeletionSuccess from "@utils/types/DeletionSuccess";
 
 import {
@@ -14,6 +15,7 @@ import { UserService } from "./user.service";
 import { UserWithDetails } from "./user.entity";
 
 @Resolver("User")
+@UseFilters(HttpGqlExceptionFilter)
 export class UserResolver {
     constructor(private userService: UserService) {}
 

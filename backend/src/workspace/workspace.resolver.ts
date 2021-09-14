@@ -3,9 +3,10 @@ import {
 } from "@nestjs/graphql";
 
 import { NotFoundInterceptor } from "@utils/providers/validation";
-import { UseInterceptors } from "@nestjs/common";
+import { UseFilters, UseInterceptors } from "@nestjs/common";
 import { UserWithDetails } from "@root/user/user.entity";
 import DeletionSuccess from "@utils/types/DeletionSuccess";
+import { HttpGqlExceptionFilter } from "@root/httpExceptions/httpExceptions.filter";
 
 import {
     CreateWorkspaceDto, FindWorkspaceArgs, FindWorkspaceMembersArgs, UpdateWorkspaceDto,
@@ -16,6 +17,7 @@ import { WorkspaceService } from "./workspace.service";
 import { WorkspaceWithDetails } from "./workspace.entity";
 
 @Resolver("Workspace")
+@UseFilters(HttpGqlExceptionFilter)
 export class WorkspaceResolver {
     constructor(private workspaceService: WorkspaceService) {}
 
